@@ -1,3 +1,24 @@
+pekko-quartz-scheduler
+=====================
+Apache Pekko™ is an open-source framework for building applications that are concurrent, distributed, resilient and elastic. Pekko uses the Actor Model to provide more intuitive high-level abstractions for concurrency. Using these abstractions, Pekko also provides libraries for persistence, streams, HTTP, and more. Pekko includes APIs for Java and Scala and is designed to run in JVMs.
+
+Apache Pekko™ is a fork of Akka 2.6.x, prior to the Akka project’s adoption of the Business Source License.
+
+This project migrate https://github.com/enragedginger/akka-quartz-scheduler version `1.9.3-akka-2.6.x` from Akka to Apache Pekko `1.9.3-pekko-2.6.x`.
+
+## Usage
+
+Usage of the `akka-quartz-scheduler` component first requires including the necessary dependency in your SBT project:
+
+```scala
+// For Akka 2.6.x and Akka Typed Actors 2.6.x and Scala 2.12.x, 2.13.x, 3.1.x
+libraryDependencies += "com.github.treenwang" %% "akka-quartz-scheduler" % "1.9.3-pekko-2.6.x"
+```
+-----------
+
+> Below is [akka-quartz-scheduler](https://github.com/enragedginger/akka-quartz-scheduler) orignial descriptions:
+
+
 akka-quartz-scheduler
 =====================
 
