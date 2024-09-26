@@ -4,7 +4,7 @@ Apache Pekko™ is an open-source framework for building applications that are c
 
 Apache Pekko™ is a fork of Akka 2.6.x, prior to the Akka project’s adoption of the Business Source License.
 
-This project migrate https://github.com/enragedginger/akka-quartz-scheduler version `1.9.3-akka-2.6.x` from Akka to Apache Pekko `1.9.3-pekko-2.6.x`.
+This project migrate https://github.com/enragedginger/akka-quartz-scheduler version `1.9.3-akka-2.6.x` from Akka to Apache Pekko `1.9.3-pekko-2.6.x`. Also thanks for https://github.com/samueleresca/pekko-quartz-scheduler (which is not updated to 1.9.3-pekko-2.6.x), I copied some configurations from it. 
 
 ## Usage
 

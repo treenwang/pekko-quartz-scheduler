@@ -1,24 +1,27 @@
-name := "akka-quartz-scheduler"
+import xerial.sbt.Sonatype.*
 
-organization := "com.enragedginger"
+name := "pekko-quartz-scheduler"
 
-version := "1.9.3-akka-2.6.x"
+organization := "com.github.treenwang"
+
+version := "1.9.3-pekko-2.6.x"
 
 val Scala212Version = "2.12.13"
 val Scala213Version = "2.13.8"
 val Scala3Version = "3.1.3"
+val PekkoVersion = "1.1.1"
 
-ThisBuild / scalaVersion := Scala3Version
+ThisBuild / scalaVersion := Scala213Version
 ThisBuild / crossScalaVersions := Seq(Scala212Version, Scala213Version, Scala3Version)
 ThisBuild / scalacOptions ++= Seq("-language:postfixOps")
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"   %% "akka-actor"       % "2.6.19" % "provided",
-  "com.typesafe.akka"   %% "akka-actor-typed" % "2.6.19" % "provided",
+  "org.apache.pekko"     %% "pekko-actor"       % PekkoVersion % "provided",
+  "org.apache.pekko"     %% "pekko-actor-typed" % PekkoVersion % "provided",
   "org.quartz-scheduler" % "quartz"           % "2.3.2"
     exclude ("com.zaxxer", "HikariCP-java7"),
-  "com.typesafe.akka" %% "akka-testkit"             % "2.6.19" % Test,
-  "com.typesafe.akka" %% "akka-actor-testkit-typed" % "2.6.19" % Test,
+  "org.apache.pekko" %% "pekko-testkit"             % PekkoVersion % Test,
+  "org.apache.pekko" %% "pekko-actor-testkit-typed" % PekkoVersion % Test,
   "org.specs2"        %% "specs2-core"              % "4.15.0" % Test,
   "org.specs2"        %% "specs2-junit"             % "4.15.0" % Test,
   "junit"              % "junit"                    % "4.12"   % Test,
@@ -27,37 +30,43 @@ libraryDependencies ++= Seq(
   "org.scalatest"     %% "scalatest"                % "3.2.12" % Test
 )
 
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
+// Sonatype release settings
 pomIncludeRepository := { _ => false }
-
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+publishTo := sonatypePublishToBundle.value
+sonatypeProjectHosting := Some(
+  GitHubHosting(user = "treenwang", repository = "pekko-quartz-scheduler", email = "wanglinchuan@126.com")
+)
+// Metadata referrsing to licenses, website, and SCM (source code management)
+licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+sonatypeProfileName := "io.github.treenwang"
 publishMavenStyle := true
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/treenwang/pekko-quartz-scheduler"),
+    "scm:git@github.com:treenwang/pekko-quartz-scheduler.git"
+  )
+)
 
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
+ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("test")))
 
-//useGpg := true
+ThisBuild / githubWorkflowTargetTags ++= Seq("*.*.*")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq.empty
+ThisBuild / githubWorkflowPublish := Seq.empty
 
-pomExtra := <url>https://github.com/enragedginger/akka-quartz-scheduler</url>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <url>https://github.com/enragedginger/akka-quartz-scheduler.git</url>
-        <connection>https://github.com/enragedginger/akka-quartz-scheduler.git</connection>
-    </scm>
-    <developers>
-        <developer>
-            <name>Stephen M. Hopper</name>
-            <email>stephen@enragedginger.com</email>
-        </developer>
-    </developers>
+ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest", "macos-latest")
+
+// sbt is not preinstalled in macos-latest
+ThisBuild / githubWorkflowBuildPreamble +=
+  WorkflowStep.Run(
+    List("brew install sbt"),
+    name = Some("Install missing sbt"),
+    cond = Some("matrix.os == 'macos-latest'")
+  )
+
+ThisBuild / githubWorkflowJavaVersions := Seq(
+  JavaSpec.corretto("8"), // Use corretto because temurin doesn't provide a JDK 1.8 supporting Apple M1.
+  JavaSpec.temurin("11"),
+  JavaSpec.temurin("17"),
+  JavaSpec.temurin("21")
+)

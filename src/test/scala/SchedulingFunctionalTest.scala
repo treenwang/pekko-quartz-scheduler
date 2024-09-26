@@ -1,4 +1,4 @@
-package com.typesafe.akka.extension.quartz
+package org.apache.pekko.extension.quartz
 
 import com.typesafe.config.{Config, ConfigFactory}
 
