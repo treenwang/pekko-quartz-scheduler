@@ -54,18 +54,8 @@ ThisBuild / githubWorkflowTargetTags ++= Seq("*.*.*")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq.empty
 ThisBuild / githubWorkflowPublish := Seq.empty
 
-ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest", "macos-latest")
-
-// sbt is not preinstalled in macos-latest
-ThisBuild / githubWorkflowBuildPreamble +=
-  WorkflowStep.Run(
-    List("brew install sbt"),
-    name = Some("Install missing sbt"),
-    cond = Some("matrix.os == 'macos-latest'")
-  )
+ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(
-  JavaSpec.temurin("11"),
-  JavaSpec.temurin("17"),
-  JavaSpec.temurin("21")
+  JavaSpec.temurin("11")
 )
