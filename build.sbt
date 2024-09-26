@@ -12,7 +12,7 @@ val Scala3Version = "3.1.3"
 val PekkoVersion = "1.1.1"
 
 ThisBuild / scalaVersion := Scala213Version
-ThisBuild / crossScalaVersions := Seq(Scala212Version, Scala213Version, Scala3Version)
+ThisBuild / crossScalaVersions := Seq(Scala213Version)
 ThisBuild / scalacOptions ++= Seq("-language:postfixOps")
 
 libraryDependencies ++= Seq(
