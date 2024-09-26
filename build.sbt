@@ -32,7 +32,7 @@ libraryDependencies ++= Seq(
 
 // Sonatype release settings
 pomIncludeRepository := { _ => false }
-sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeCredentialHost := sonatypeCentralHost
 publishTo := sonatypePublishToBundle.value
 sonatypeProjectHosting := Some(
   GitHubHosting(user = "treenwang", repository = "pekko-quartz-scheduler", email = "wanglinchuan@126.com")
@@ -50,9 +50,14 @@ scmInfo := Some(
 
 ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("test")))
 
-ThisBuild / githubWorkflowTargetTags ++= Seq("*.*.*")
-ThisBuild / githubWorkflowPublishTargetBranches := Seq.empty
-ThisBuild / githubWorkflowPublish := Seq.empty
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    commands = List("ci-release"),
+    name = Some("Publish project"),
+  )
+)
 
 ThisBuild / githubWorkflowOSes := Seq("ubuntu-latest")
 
