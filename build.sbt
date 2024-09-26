@@ -65,7 +65,6 @@ ThisBuild / githubWorkflowBuildPreamble +=
   )
 
 ThisBuild / githubWorkflowJavaVersions := Seq(
-  JavaSpec.corretto("8"), // Use corretto because temurin doesn't provide a JDK 1.8 supporting Apple M1.
   JavaSpec.temurin("11"),
   JavaSpec.temurin("17"),
   JavaSpec.temurin("21")

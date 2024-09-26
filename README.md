@@ -14,6 +14,12 @@ Usage of the `akka-quartz-scheduler` component first requires including the nece
 // For Akka 2.6.x and Akka Typed Actors 2.6.x and Scala 2.12.x, 2.13.x, 3.1.x
 libraryDependencies += "com.github.treenwang" %% "akka-quartz-scheduler" % "1.9.3-pekko-2.6.x"
 ```
+
+# Development
+1. Change any code in `src/main/scala` and `src/test/scala`, then run `sbt test` to make sure the code is correct.
+2. Run `sbt publishLocal` to publish the library to local.
+3. Run `sbt githubWorkflowGenerate` to generate the github workflow file and commit files in `.github/workflows` folder.
+
 -----------
 
 > Below is [akka-quartz-scheduler](https://github.com/enragedginger/akka-quartz-scheduler) orignial descriptions:
